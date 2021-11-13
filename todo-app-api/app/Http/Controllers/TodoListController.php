@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Todo;
 use Illuminate\Http\Request;
 
 class TodoListController extends Controller
@@ -13,7 +14,9 @@ class TodoListController extends Controller
      */
     public function index()
     {
-        echo "hi";
+        $todo = new Todo;
+        $tasks = $todo->get();
+        return $tasks;
     }
 
     /**
