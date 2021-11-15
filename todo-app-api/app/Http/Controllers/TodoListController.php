@@ -14,6 +14,8 @@ class TodoListController extends Controller
      */
     public function index()
     {
+        // Todo
+        // どうやってAuth認証の情報をとってきたらいいの、、、
         $todo = new Todo;
         $tasks = $todo->get();
         return $tasks;
@@ -27,7 +29,17 @@ class TodoListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $result = $request->validate([
+            "id_users" => "integer|required",
+            "title" => "required",
+        ]);
+
+        $todo = new Todo;
+        $todo->id_users = $request->id_users;
+        $todo->title = $request->title;
+        $todo->text = $request->text;
+        $todo->save();
+
     }
 
     /**
@@ -38,7 +50,9 @@ class TodoListController extends Controller
      */
     public function show($id)
     {
-        //
+        $todo = new Todo;
+        $tasks = $todo::find($id);
+        return $tasks;
     }
 
     /**
@@ -50,8 +64,29 @@ class TodoListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $result = $request->validate([
+            "title" => "required",
+        ]);
+        
+        $todo = new Todo;
+        $tasks = $todo::find($id);
+        $tasks->title = $request->title;
+        $tasks->text = $request->text;
+        $tasks->save();
     }
+    // public function update(Request $request)
+    // {
+    //     $request->validate([
+    //         "id" => "required",
+    //         "title" => "required",
+    //     ]);
+        
+    //     $todo = new Todo;
+    //     $tasks = $todo::find($request->id);
+    //     $tasks->title = $request->title;
+    //     $tasks->text = $request->text;
+    //     $tasks->save();
+    // }
 
     /**
      * Remove the specified resource from storage.
