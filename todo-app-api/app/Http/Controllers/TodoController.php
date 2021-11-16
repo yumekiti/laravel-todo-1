@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 
-class TodoListController extends Controller
+class TodoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,7 @@ class TodoListController extends Controller
     {
         // Todo
         // どうやってAuth認証の情報をとってきたらいいの、、、
-        $todo = new Todo;
-        $tasks = $todo->get();
-        return $tasks;
+        return Todo::all();
     }
 
     /**
@@ -34,11 +32,12 @@ class TodoListController extends Controller
             "title" => "required",
         ]);
 
-        $todo = new Todo;
-        $todo->id_users = $request->id_users;
-        $todo->title = $request->title;
-        $todo->text = $request->text;
-        $todo->save();
+        $tasks = new Todo;
+        $tasks->id_users = $request->id_users;
+        $tasks->title = $request->title;
+        $tasks->text = $request->text;
+        $tasks->save();
+        return $tasks;
 
     }
 
@@ -50,9 +49,7 @@ class TodoListController extends Controller
      */
     public function show($id)
     {
-        $todo = new Todo;
-        $tasks = $todo::find($id);
-        return $tasks;
+        return Todo::find($id);
     }
 
     /**
@@ -64,29 +61,30 @@ class TodoListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $result = $request->validate([
+        $request->validate([
             "title" => "required",
         ]);
         
-        $todo = new Todo;
-        $tasks = $todo::find($id);
+        $tasks = Todo::find($id);
         $tasks->title = $request->title;
         $tasks->text = $request->text;
         $tasks->save();
+        return $tasks;
     }
-    // public function update(Request $request)
-    // {
-    //     $request->validate([
-    //         "id" => "required",
-    //         "title" => "required",
-    //     ]);
-        
-    //     $todo = new Todo;
-    //     $tasks = $todo::find($request->id);
-    //     $tasks->title = $request->title;
-    //     $tasks->text = $request->text;
-    //     $tasks->save();
-    // }
+    
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function check($id)
+    {
+        $tasks = Todo::find($id);
+        $tasks->completed = $tasks->completed === 0 ? 1 : 0;
+        $tasks->save();
+        return $tasks;
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -96,6 +94,6 @@ class TodoListController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Todo::find($id)->delete();
     }
 }
