@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\TodoListController;
+use App\Http\Controllers\TodoController;
 use App\Http\Controllers\TodoStateController;
 
 /*
@@ -17,7 +17,5 @@ use App\Http\Controllers\TodoStateController;
 |
 */
 
-Route::apiResource('/todos', TodoListController::class);
-Route::apiResource('/todos/state', TodoStateController::class);
-// Route::put('/todos/state/{id}', [TodoStateController::class, "update"]);
-
+Route::apiResource('/todos', TodoController::class);
+Route::put('/todos/check/{id}', [TodoController::class, "check"]);
