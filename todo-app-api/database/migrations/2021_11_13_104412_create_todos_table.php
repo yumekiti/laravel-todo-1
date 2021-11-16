@@ -15,12 +15,14 @@ class CreateTodosTable extends Migration
     {
         Schema::create('todos', function (Blueprint $table) {
             $table->increments("id");
-            $table->integer("id_users")->nullable(false)->unsigned();
-            $table->string("title")->nullable(false);
+            $table->string("title");
             $table->text("text")->nullable();
-            $table->tinyInteger("completed")->default(0)->nullable(false);
             $table->timestamps();
             $table->softDeletes();
+            $table->boolean("completed")->default(false);
+            // 外部キー制約
+            $table->unsignedBigInteger("id_users");
+            $table->foreign("id_users")->references("id")->on("users");
         });
     }
 
