@@ -1,5 +1,6 @@
 import { VFC } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 
 type Inputs = {
   name: string;
@@ -9,10 +10,15 @@ type Inputs = {
 };
 
 const Signup: VFC = () => {
-  const { register, handleSubmit, watch, getValues } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<Inputs>({
+    criteriaMode: 'all',
+  });
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
-
-  console.log(watch('name'));
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -33,6 +39,7 @@ const Signup: VFC = () => {
           })}
         />
       </label>
+      <ErrorMessage errors={errors} name="name" />
       <br />
       <label htmlFor="email">
         メールアドレス：
@@ -51,6 +58,7 @@ const Signup: VFC = () => {
           })}
         />
       </label>
+      <ErrorMessage errors={errors} name="email" />
       <br />
       <label htmlFor="password">
         パスワード：
@@ -77,6 +85,7 @@ const Signup: VFC = () => {
           })}
         />
       </label>
+      <ErrorMessage errors={errors} name="password" />
       <br />
       <label htmlFor="passwordConfirmation">
         パスワード確認：
@@ -98,13 +107,14 @@ const Signup: VFC = () => {
             },
             pattern: {
               value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-              message: '半角英数のみで入力してください',
+              message: '半角英数を含めて入力してください',
             },
             validate: (value) =>
               value === getValues('password') || 'パスワードが一致しません',
           })}
         />
-      </label>
+      </label>{' '}
+      <ErrorMessage errors={errors} name="passwordConfirmation" />
       <br />
       <input type="submit" value="新規登録" />
     </form>
