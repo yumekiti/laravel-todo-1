@@ -3,8 +3,6 @@ import axios from 'axios';
 
 const Signin: VFC = () => {
 
-  const [datas, setDatas] = useState([])
-
   const login = () => {
     const formData = {
       email: 'test1@test.jp',
@@ -13,14 +11,13 @@ const Signin: VFC = () => {
     axios.get('http://127.0.0.1:8000/api/csrf-cookie').then(() => {
       axios
         .post('http://127.0.0.1:8000/api/users/login', formData)
-        .then(res => (setDatas(res.data)))
+        .then(res => (console.log(res.data)))
     });
   }
   return (
     <>
       <h2>signin</h2>
       <p>signin des</p>
-      <p>{datas}</p>
       <button onClick={() => login()}>login</button>
     </>
   );
