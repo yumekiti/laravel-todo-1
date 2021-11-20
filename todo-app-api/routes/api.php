@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TodoController;
-use App\Http\Controllers\TodoStateController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,5 +17,15 @@ use App\Http\Controllers\TodoStateController;
 |
 */
 
-Route::apiResource('/todos', TodoController::class);
-Route::put('/todos/check/{id}', [TodoController::class, "check"]);
+// Route::middleware(["auth:sanctum"])->group(function () {
+  Route::apiResource("/todos", TodoController::class)->only([
+    "index", "store", "show", "update", "destroy"
+  ]);
+    Route::apiResource("/users", UserController::class)->only([
+    "index", "update", "destroy"
+    ]);
+// });
+Route::apiResource("/users", UserController::class)->only([
+  "store"
+]);
+Route::post('/users', [UserController::class, "login"]);
