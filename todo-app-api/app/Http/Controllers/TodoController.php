@@ -2,37 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Todo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TodoController extends Controller
 {
     public function index()
     {
         // Todo
-        // どうやってAuth認証の情報をとってきたらいいの、、、
-        return Todo::all();
+        return Auth::user()->todo()->get();
     }
 
     public function store(Request $request)
     {
-        $result = $request->validate([
+        $request->validate([
             "id_users" => "integer|required",
             "title" => "required",
         ]);
 
-        $tasks = new Todo;
-        $tasks->id_users = $request->id_users;
-        $tasks->title = $request->title;
-        $tasks->text = $request->text;
-        $tasks->save();
-        return $tasks;
+        return Auth::user()->todo()->create([
+            'title' => $request->input('title'),
+            'text' => $request->input('text'),
+            'user_id' => Auth::user()->id,
+        ]);
 
     }
 
     public function show($id)
     {
-        return Todo::find($id);
+        return Auth::user()->todo()->find($id);
     }
 
     public function update(Request $request, $id)
@@ -40,25 +38,33 @@ class TodoController extends Controller
         $request->validate([
             "title" => "required",
         ]);
-        
-        $tasks = Todo::find($id);
-        $tasks->title = $request->title;
-        $tasks->text = $request->text;
-        $tasks->save();
-        return $tasks;
+
+        $todo = Auth::user()->todo()->find($id);
+
+
+        $todo->update([
+            'title' => $request->input('title'),
+            'text' => $request->input('text'),
+            'user_id' => Auth::user()->id,
+        ]);
+        return $todo;
+    }
+    
+    public function destroy($id)
+    {
+        Auth::user()->todo()->find($id)->delete();
+        return $id;
     }
     
     public function check($id)
     {
-        $tasks = Todo::find($id);
-        $tasks->completed = $tasks->completed === 0 ? 1 : 0;
-        $tasks->save();
-        return $tasks;
-    }
+        $todo = Auth::user()->todo()->find($id);
 
-    public function destroy($id)
-    {
-        Todo::find($id)->delete();
-        return Todo::withTrashed()->find($id);
+
+        $todo->update([
+            "completed" => "completed" === 0 ? 1 : 0
+        ]);
+        return $todo;
+
     }
 }
