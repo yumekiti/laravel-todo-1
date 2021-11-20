@@ -1,4 +1,4 @@
-import { useState, useEffect, VFC } from 'react';
+import { useState, VFC } from 'react';
 import axios from 'axios';
 
 const Signin: VFC = () => {
