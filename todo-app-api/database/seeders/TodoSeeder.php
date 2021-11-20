@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Todo;
+use Illuminate\Support\Facades\DB;
 
 class TodoSeeder extends Seeder
 {
@@ -14,7 +14,7 @@ class TodoSeeder extends Seeder
      */
     public function run()
     {
-        Todo::factory()->create([
+        DB::table('todos')->insert([
             "title" => "sample title",
             "text" => "sample text",
             "user_id" => 1

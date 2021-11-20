@@ -17,16 +17,15 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::factory()->create([
-            "name" => "test user",
-            "email" => "test@test.test",
-            "password" => bcrypt("testtest")
+            'name' => 'test1',
+            'email' => 'test1@test.jp',
+            'password' => bcrypt('testtest')
+        ]);
+        DB::table('users')->insert([
+            'name' => 'test2',
+            'email' => 'test2@test.jp',
+            'password' => Hash::make('password')
         ]);
         User::factory()->count(3)->create();
-
-        DB::insert([
-            "name" => "test DB user",
-            "email" => "testDB@testDB.test.DB",
-            "password" => Hash::make("testDB")
-        ]);
     }
 }
