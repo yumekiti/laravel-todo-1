@@ -10,4 +10,16 @@ class Todo extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    // ホワイトリスト
+    // $fillableに指定したカラムのみ
+    // ブラックリスト
+    // $guarded
+    protected $fillable = [
+        'title', 'text', 'user_id'
+    ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
