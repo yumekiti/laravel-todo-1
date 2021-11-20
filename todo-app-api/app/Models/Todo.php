@@ -18,6 +18,7 @@ class Todo extends Model
     protected $fillable = [
         'title', 'text', 'user_id'
     ];
+    // todo所有userの取得
     public function user()
     {
         return $this->belongsTo(User::class);
