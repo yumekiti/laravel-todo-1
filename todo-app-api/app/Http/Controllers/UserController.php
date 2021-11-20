@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -36,7 +35,7 @@ class UserController extends Controller
         return User::created([
             "name" => $request->input("name"),
             "email" => $request->input("email"),
-            "password" => $request->input("password")
+            "password" => Hash::make($request->input("password"))
         ]);
     }
 
@@ -85,8 +84,7 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        if(Auth::attempt($request->all()))
-        {
+        if(Auth::attempt($request->all())){
             return Auth::user();
         }
     }
