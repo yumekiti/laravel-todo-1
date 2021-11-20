@@ -17,15 +17,15 @@ use App\Http\Controllers\UserController;
 |
 */
 
-// Route::middleware(["auth:sanctum"])->group(function () {
+Route::middleware(["auth:sanctum"])->group(function () {
   Route::apiResource("/todos", TodoController::class)->only([
     "index", "store", "show", "update", "destroy"
   ]);
     Route::apiResource("/users", UserController::class)->only([
     "index", "update", "destroy"
     ]);
-// });
+});
 Route::apiResource("/users", UserController::class)->only([
   "store"
 ]);
-Route::post('/users', [UserController::class, "login"]);
+Route::post('/users/login', [UserController::class, "login"]);
