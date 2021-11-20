@@ -12,7 +12,7 @@ const Signin: VFC = () => {
     }
     axios.get('http://127.0.0.1:8000/api/csrf-cookie').then(() => {
       axios
-        .post('http://127.0.0.1:8000/api/login', formData)
+        .post('http://127.0.0.1:8000/api/users/login', formData)
         .then(res => (setDatas(res.data)))
     });
   }

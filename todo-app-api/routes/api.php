@@ -16,6 +16,7 @@ use App\Http\Controllers\UserController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/users/login', [UserController::class, "login"]);
 
 Route::middleware(["auth:sanctum"])->group(function () {
   Route::apiResource("/todos", TodoController::class)->only([
@@ -28,4 +29,3 @@ Route::middleware(["auth:sanctum"])->group(function () {
 Route::apiResource("/users", UserController::class)->only([
   "store"
 ]);
-Route::post('/users/login', [UserController::class, "login"]);
