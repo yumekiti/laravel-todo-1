@@ -8,9 +8,9 @@ const Signin: VFC = () => {
       email: 'test1@test.jp',
       password: 'testtest',
     }
-    axios.get('http://127.0.0.1:8000/api/csrf-cookie').then(() => {
+    axios.get('localhost:8080/api/csrf-cookie').then(() => {
       axios
-        .post('http://127.0.0.1:8000/api/users/login', formData)
+        .post('localhost:8080/api/users/login', formData)
         .then(res => (console.log(res.data)))
     });
   }
