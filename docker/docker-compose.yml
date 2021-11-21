@@ -37,6 +37,6 @@ services:
     volumes:
       - ../todo-app-web:/mnt/app/
     working_dir: /mnt/app/
-    command: sh -c "npm install && npm run start"
+    command: sh -c "npm install && npm run dev"
     ports:
       - "3000:3000"
